@@ -18,20 +18,17 @@ class App extends Component {
   constructor(props) {
     super(props);
     
-    this.CounterButton = this.CounterButton.bind(this)
+    this.IncrementButton = this.IncrementButton.bind(this)
+    this.DecrementButton = this.DecrementButton.bind(this)
   }
 
-  CounterButton(e) {
-    const buttonType = e.target.value
-    switch(buttonType){
-      case '+':
-        store.dispatch({ type: 'INCREMENT' })
-      case '-':
-        store.dispatch({ type: 'DECREMENT' })
-      default:
-        //document.getElementById('lbl').innerHTML = store.getState()
-    }
+  IncrementButton(e) {
+    store.dispatch({ type: 'INCREMENT' })
+    document.getElementById('lbl').innerHTML = store.getState()
+  }
 
+  DecrementButton(e) {
+    store.dispatch({ type: 'DECREMENT' })
     document.getElementById('lbl').innerHTML = store.getState()
   }
 
@@ -42,8 +39,8 @@ class App extends Component {
   render() {
     return(
       <div>
-        <button type="submit" onClick={ this.CounterButton } value="+">+</button>
-        <button type="submit" onClick={ this.CounterButton } value="-">-</button>
+        <button type="submit" onClick={ this.IncrementButton } value="INC">+</button>
+        <button type="submit" onClick={ this.DecrementButton } value="DEC">-</button>
         <br />
         <br />
         <label id="lbl"></label>
