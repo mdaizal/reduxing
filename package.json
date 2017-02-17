@@ -1,0 +1,19 @@
+{
+  "name": "reduxing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mdaizal/reduxing.git"
+  },
+  "author": "node_padawan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mdaizal/reduxing/issues"
+  },
+  "homepage": "https://github.com/mdaizal/reduxing#readme"
+}
