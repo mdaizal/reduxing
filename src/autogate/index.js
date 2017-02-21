@@ -7,7 +7,7 @@
 // state: opened: all, left only, right only. closed: all
 // simulation 1: state: closed. active button: red, green, blue to open gate
 // simulation 2: state: all/left only/right only opened. active button: red only to close gate
-// actions available: button clicks: to open and close the gate
+// actions available: buttons: to open and close the gate
 // possible reducers: (state = 'CLOSED', action)
 
 // watchify .\index.js -o test.js -v -t [ babelify --presets [ es2015 react ] ]
@@ -15,41 +15,48 @@
 import { createStore } from 'redux'
 
 // action types
-const ACTIVE_BUTTON = {
-    RED: 'RED',
-    GREEN: 'GREEN',
-    BLUE: 'BLUE'
+const BUTTON = {
+    OPEN: 'OPEN',
+    CLOSE: 'CLOSE',
+    LEFT: 'LEFT',
+    RIGHT: 'RIGHT'
 }
 
 // action creators
 const openGate = () => {
-    return { type: ACTIVE_BUTTON.RED, gateStatus: 'OPENED' }
+    return { type: BUTTON.OPEN, gateStatus: 'OPENED' }
 }
 
 const closeGate = () => {
-    return { type: ACTIVE_BUTTON.RED, gateStatus: 'CLOSED' }
+    return { type: BUTTON.CLOSE, gateStatus: 'CLOSED' }
 }
 
 const openLeftGate = () => {
-    return { type: ACTIVE_BUTTON.GREEN, gateStatus: 'LEFT GATE OPENED' }
+    return { type: BUTTON.LEFT, gateStatus: 'LEFT GATE OPENED' }
 }
 
 const openRightGate = () => {
-    return { type: ACTIVE_BUTTON.BLUE, gateStatus: 'RIGHT GATE OPENED' }
+    return { type: BUTTON.RIGHT, gateStatus: 'RIGHT GATE OPENED' }
 }
 
 // initial state
 const initialState = {
     gateStatus: 'CLOSED',
-    activeButton: 'ALL'
+    button: BUTTON.CLOSE
 }
 
 
 // reducers
 const autogate = (state = initialState, action) => {
     switch(action.type) {
-        case ACTIVE_BUTTON.RED:
-            return gateObj('OPENED', action.type)
+        case BUTTON.OPEN:
+            return gateObj(action.gateStatus, action.type)
+        case BUTTON.CLOSE:
+            return gateObj(action.gateStatus, action.type)
+        case BUTTON.LEFT:
+            return gateObj(action.gateStatus, action.type)
+        case BUTTON.RIGHT:
+            return gateObj(action.gateStatus, action.type)
         default:
             return state
     }
@@ -63,11 +70,15 @@ const gateObj = (gateStatus, activeButton) => {
     let state
     return Object.assign({}, state, {
         gateStatus: gateStatus,
-        activeButton: activeButton
+        button: activeButton
     })
 }
 
 // test
 console.log(Gate.getState())
-Gate.dispatch({ type: ACTIVE_BUTTON.RED })
+Gate.dispatch(openGate())
+console.log(Gate.getState())
+Gate.dispatch(openLeftGate())
+console.log(Gate.getState())
+Gate.dispatch(openRightGate())
 console.log(Gate.getState())
