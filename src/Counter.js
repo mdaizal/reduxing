@@ -47,7 +47,7 @@ class CounterButton extends Component {
 
   render() {
     return(
-      <div className="row">
+      
         <div className="col-lg-4">
           <div className="panel panel-success">
             <div className="panel-heading">
@@ -62,7 +62,7 @@ class CounterButton extends Component {
             </div>
           </div>
         </div>
-      </div>
+      
     )
   }
 }

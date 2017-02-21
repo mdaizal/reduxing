@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import CounterButton from './Counter'
+import Todo from './todo'
 
 class App extends Component {
 
@@ -14,7 +15,10 @@ class App extends Component {
             </div>
           </div>
         </div>
-        <CounterButton />
+        <div className="row">
+          <CounterButton />
+          <Todo />
+        </div>
       </div>
     )
   }
