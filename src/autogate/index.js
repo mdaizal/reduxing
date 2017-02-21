@@ -1,84 +1,73 @@
+// this app is a noob attempt to further understanding redux. do not follow is highly recommended
+
+// got 3 buttons: red, green, blue
+// red: open and close both gate panel
+// green: only open left panel
+// blue: only open right panel
+// state: opened: all, left only, right only. closed: all
+// simulation 1: state: closed. active button: red, green, blue to open gate
+// simulation 2: state: all/left only/right only opened. active button: red only to close gate
+// actions available: button clicks: to open and close the gate
+// possible reducers: (state = 'CLOSED', action)
+
+// watchify .\index.js -o test.js -v -t [ babelify --presets [ es2015 react ] ]
+
 import { createStore } from 'redux'
 
-
-const actionType = {
-    RED_OPEN: 'RED OPEN',
-    RED_CLOSE: 'RED CLOSE',
-    LEFT_OPEN: 'LEFT OPEN',
-    RIGHT_OPEN: 'RIGHT OPEN'
+// action types
+const ACTIVE_BUTTON = {
+    RED: 'RED',
+    GREEN: 'GREEN',
+    BLUE: 'BLUE'
 }
 
-
-const stateType = {
-    BOTH_OPEN: 'BOTH OPEN',
-    BOTH_CLOSE: 'BOTH CLOSE',
-    LEFT_OPEN: 'LEFT OPEN',
-    RIGHT_OPEN: 'RIGHT OPEN'
+// action creators
+const openGate = () => {
+    return { type: ACTIVE_BUTTON.RED, gateStatus: 'OPENED' }
 }
 
+const closeGate = () => {
+    return { type: ACTIVE_BUTTON.RED, gateStatus: 'CLOSED' }
+}
 
+const openLeftGate = () => {
+    return { type: ACTIVE_BUTTON.GREEN, gateStatus: 'LEFT GATE OPENED' }
+}
+
+const openRightGate = () => {
+    return { type: ACTIVE_BUTTON.BLUE, gateStatus: 'RIGHT GATE OPENED' }
+}
+
+// initial state
 const initialState = {
-    button: actionType.RED_CLOSE,
-    gate: stateType.BOTH_CLOSE
+    gateStatus: 'CLOSED',
+    activeButton: 'ALL'
 }
 
 
+// reducers
 const autogate = (state = initialState, action) => {
     switch(action.type) {
-        case actionType.RED_OPEN:
-            return gateObj(stateType.BOTH_OPEN, action.type) 
-        case actionType.RED_CLOSE:
-            return gateObj(stateType.BOTH_CLOSE, action.type)
-        case actionType.LEFT_OPEN:
-            if(state.gate === stateType.BOTH_OPEN){
-                return state
-            }           
-            return gateObj(stateType.LEFT_OPEN, action.type)
-        case actionType.RIGHT_OPEN:
-            if(state.gate === stateType.BOTH_OPEN){
-                return state
-            }           
-            return gateObj(stateType.RIGHT_OPEN, action.type)
+        case ACTIVE_BUTTON.RED:
+            return gateObj('OPENED', action.type)
         default:
             return state
     }
 }
 
-const gateObj = (stateType, action) => {
+// createStore
+let Gate = createStore(autogate)
+
+// gate object
+const gateObj = (gateStatus, activeButton) => {
     let state
     return Object.assign({}, state, {
-                button: action,
-                gate: stateType
-            })
+        gateStatus: gateStatus,
+        activeButton: activeButton
+    })
 }
 
-
-const gateStore = createStore(autogate)
-console.log(gateStore.getState())
-gateStore.dispatch({ type: actionType.RED_OPEN })
-console.log(gateStore.getState())
-gateStore.dispatch({ type: actionType.RED_CLOSE })
-console.log(gateStore.getState())
-gateStore.dispatch({ type: actionType.LEFT_OPEN })
-console.log(gateStore.getState())
-gateStore.dispatch({ type: actionType.RED_CLOSE })
-console.log(gateStore.getState())
-gateStore.dispatch({ type: actionType.LEFT_OPEN })
-console.log(gateStore.getState())
-gateStore.dispatch({ type: actionType.RIGHT_OPEN })
-console.log(gateStore.getState())
-gateStore.dispatch({ type: actionType.RED_CLOSE })
-console.log(gateStore.getState())
-gateStore.dispatch({ type: actionType.RIGHT_OPEN })
-console.log(gateStore.getState())
-
-//reducers (state & action), store (createStore), store.dispatch(action), subscribe
-// TWO BUTTONS: READ & GREEN
-// ACTIONS: 'RED OPEN', 'RED CLOSE', 'GREEN OPEN LEFT', 'GREEN OPEN RIGHT' ,'RED STOP'
-// STATE: 'OPENED', 'CLOSED', 'LEFT OPENED', 'RIGHT OPENED', 'STOPPED'
-// FOR BASIC APP, OMIT 'STOP'. JUST 'OPEN' AND 'CLOSE'
-//LOGICAL SITUATION: IF BOTH CLOSE = PRESS RED BUTTON => BOTH OPEN
-//                                   PRESS GREEN LEFT => LEFT OPEN
-//                                   PRESS GREEN RIGHT => RIGHT OPEN
-//                   IF BOTH OPEN = PRESS RED BUTTON => BOTH CLOSE
-//                   IF LEFT/RIGHT OPEN = PRESS RED BUTTON => LEFT/RIGHT CLOSE
+// test
+console.log(Gate.getState())
+Gate.dispatch({ type: ACTIVE_BUTTON.RED })
+console.log(Gate.getState())
