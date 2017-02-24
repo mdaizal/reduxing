@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import CounterButton from './Counter'
 import Todo from './todo'
 import GateApp from './autogate'
+import MathApp from './simplemath'
 
 class App extends Component {
 
@@ -22,6 +23,7 @@ class App extends Component {
         </div>
         <div className="row">
           <GateApp />
+          <MathApp />
         </div>
       </div>
     )

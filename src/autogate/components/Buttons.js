@@ -1,15 +1,16 @@
 import React, { PropTypes } from 'react'
 
-const Button = ({ status, actions }) => {
+const Button = ({ status, actions, btnVal }) => {
     return(
         <div>
             <p>Please close the gate before opening both/right/left gate. Thank you.</p>
             <form onSubmit={e =>
                 e.preventDefault()
             }>
-                <button type="button" onClick={ () => actions.onOrangeClick() } className="btn btn-warning">CLOSE</button>
+                <button type="button" onClick={ () => 
+                    (btnVal==='OPEN')? actions.onRedClick() : actions.onOrangeClick() } 
+                    className="btn btn-danger">{ btnVal }</button>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <button type="button" onClick={ () => actions.onRedClick() } className="btn btn-danger">OPEN</button>
                 <button type="button" onClick={ () => actions.onGreenClick() } className="btn btn-success">OPEN LEFT</button>
                 <button type="button" onClick={ () => actions.onBlueClick() } className="btn btn-primary">OPEN RIGHT</button>                
             </form>
@@ -21,6 +22,7 @@ const Button = ({ status, actions }) => {
 }
 
 Button.propTypes = {
+    btnVal: PropTypes.string.isRequired,
     status: PropTypes.object.isRequired,
     actions: PropTypes.shape({
         onRedClick: PropTypes.func.isRequired,

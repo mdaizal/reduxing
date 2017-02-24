@@ -3,7 +3,10 @@ import { openGate, openLeftGate, openRightGate, closeGate } from '../actions'
 import Button from '../components/Buttons'
 
 const mapStateToProps = (state) => {
-    return { status: state }
+    return { 
+        status: state,
+        btnVal: (!state.open)? 'OPEN' : 'CLOSE'
+     }
 }
 
 const mapDispatchToProps = (dispatch) => {
