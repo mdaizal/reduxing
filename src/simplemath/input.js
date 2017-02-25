@@ -22,6 +22,9 @@ let Math = ({ dispatch }) => {
           <a onClick={e => dispatch(_Substract(input1.value,input2.value)) } className="btn btn-success">SUBSTRACT!</a>
           <a onClick={e => dispatch(_Multiply(input1.value,input2.value)) } className="btn btn-warning">MULTIPLY!</a>
           <a onClick={e => dispatch(_Divide(input1.value,input2.value)) } className="btn btn-danger">DIVIDE!</a>
+          <a onClick={e => 
+            document.getElementById('result').innerHTML = ''
+            } className="btn btn-default">*CLEAR RESULTS*</a> {/* clear the results. just a temporary solutions. the state is still intact*/}
         </div>
         </fieldset>
       </form>
