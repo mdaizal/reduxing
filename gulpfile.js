@@ -21,7 +21,7 @@ var config = {
             baseDir: ['./build', './src', './www']            
         },
         files: ['./build/**'],
-        port: 3001
+        port: 3002
     }
 }
 
