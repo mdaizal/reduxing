@@ -9,7 +9,7 @@ const MathObject = (action) => {
   })
 }
 
-// ...aaaannnd we can see previous calculation results with spread operators
+// ...aaaannnd we can see previous calculation results with spread operators (previous state)
 const Math = (state = [], action) => {
   switch(action.type){
     case ADD:
