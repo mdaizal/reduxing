@@ -3,6 +3,7 @@ import CounterButton from './Counter'
 import Todo from './todo'
 import GateApp from './autogate'
 import MathApp from './simplemath'
+import Counter from './CounterTwo'
 
 class App extends Component {
 
@@ -24,6 +25,9 @@ class App extends Component {
         <div className="row">
           <GateApp />
           <MathApp />
+        </div>
+        <div className="row">
+          <Counter />
         </div>
       </div>
     )
