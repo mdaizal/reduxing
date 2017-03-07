@@ -24,27 +24,47 @@ const backendData = () => {
   })
 }
 
-const DisplayComp = (props) => {
-  const displayState = () => {
-    document.getElementById('countVal').innerHTML = props.counter.getState()
+class CounterApp extends Component {  
+
+  constructor() {
+    super()
+    this.state = {
+      initial: ''
+    }
+    const val = backendData()
+    val.then((v) => {
+      this.setState({ initial: v.start })
+    })
   }
-  props.counter.subscribe(displayState)
-  return(
+
+  render() {
+
+    const countStore = createStore(plusminus, this.state.initial)
+
+    const displayState = () => {
+      document.getElementById('countVal').innerHTML = countStore.getState()
+    }
+
+    countStore.subscribe(displayState)
+
+    return(
       <div className="col-lg-4">
         <div className="panel panel-success">
           <div className="panel-heading">
             <h3 className="panel-title">Counter. State from Server</h3>
           </div>
           <div className="panel-body">
-            <button className="btn btn-primary" onClick={ () => props.counter.dispatch({ type: PLUS })}>+</button>
-            <button className="btn btn-danger" onClick={ () => props.counter.dispatch({ type: MINUS })}>-</button>
+            <button className="btn btn-primary" onClick={ () => countStore.dispatch({ type: PLUS }) }>+</button>
+            <button className="btn btn-danger" onClick={ () => countStore.dispatch({ type: MINUS }) }>-</button>
+            <button className="btn btn-success" style={{ marginLeft: 10 }}>Save</button>
             <div className="well">
-              <h2 id="countVal">{ props.state }</h2>
+              <h2 id="countVal">{ (countStore.getState() === '')? this.state.initial : countStore.getState() }</h2>
             </div>
           </div>
         </div>
       </div>
-  )
+    )
+  }
 }
 
-export default App
+export default CounterApp
