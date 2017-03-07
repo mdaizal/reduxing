@@ -33,7 +33,7 @@ class CounterApp extends Component {
     }
     const val = backendData()
     val.then((v) => {
-      this.setState({ initial: v.start })
+      this.setState({ initial: v[0].initial })
     })
   }
 
