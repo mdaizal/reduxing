@@ -4,6 +4,7 @@ import { createStore } from 'redux'
 // action types
 const PLUS = 'PLUS'
 const MINUS = 'MINUS'
+const SAVE = 'SAVE'
 
 // reducers
 const plusminus = (state, action) => {
@@ -12,9 +13,25 @@ const plusminus = (state, action) => {
       return state + 1
     case 'MINUS':
       return state - 1
+    case 'SAVE':
+      return NEWVALUE(action)
     default:
       return state
   }
+}
+
+const NEWVALUE = (action) => {
+  let state
+  fetch(`http://localhost:3003/api/counter/${action.id}`, {
+    method: 'PATCH',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      initial: action.newVal
+    }) 
+  })
+  return Object.assign(action.newVal, state)
 }
 
 const backendData = () => {
@@ -29,11 +46,14 @@ class CounterApp extends Component {
   constructor() {
     super()
     this.state = {
-      initial: ''
+      initial: '',
+      id: ''
     }
     const val = backendData()
     val.then((v) => {
-      this.setState({ initial: v[0].initial })
+      this.setState({ 
+        initial: v[0].initial,
+        id: v[0]._id })
     })
   }
 
@@ -56,7 +76,10 @@ class CounterApp extends Component {
           <div className="panel-body">
             <button className="btn btn-primary" onClick={ () => countStore.dispatch({ type: PLUS }) }>+</button>
             <button className="btn btn-danger" onClick={ () => countStore.dispatch({ type: MINUS }) }>-</button>
-            <button className="btn btn-success" style={{ marginLeft: 10 }}>Save</button>
+            <button className="btn btn-success" onClick={ () => {
+                countStore.dispatch({ type: SAVE, newVal: countStore.getState(), id: this.state.id })
+                //this.setState({ initial: countStore.getState() })
+              } } style={{ marginLeft: 10 }}>Save</button>
             <div className="well">
               <h2 id="countVal">{ (countStore.getState() === '')? this.state.initial : countStore.getState() }</h2>
             </div>
