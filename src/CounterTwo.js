@@ -46,7 +46,7 @@ class CounterApp extends Component {
   constructor() {
     super()
     this.state = {
-      initial: '',
+      initial: 0,
       id: ''
     }
     const val = backendData()
@@ -78,8 +78,13 @@ class CounterApp extends Component {
             <button className="btn btn-danger" onClick={ () => countStore.dispatch({ type: MINUS }) }>-</button>
             <button className="btn btn-success" onClick={ () => {
                 countStore.dispatch({ type: SAVE, newVal: countStore.getState(), id: this.state.id })
+                document.getElementById('success-alert').hidden = false
                 //this.setState({ initial: countStore.getState() })
               } } style={{ marginLeft: 10 }}>Save</button>
+            <div className="alert alert-dismissible alert-success" id="success-alert" hidden="true">
+              <button type="button" className="close" onClick={ () => { document.getElementById('success-alert').hidden = true } } data-dismiss="alert">&times;</button>
+              <strong>New value saved!</strong>
+            </div>
             <div className="well">
               <h2 id="countVal">{ (countStore.getState() === '')? this.state.initial : countStore.getState() }</h2>
             </div>
